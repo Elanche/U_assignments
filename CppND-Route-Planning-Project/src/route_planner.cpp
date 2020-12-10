@@ -11,12 +11,8 @@ RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, floa
 
     // TODO 2: Use the m_Model.FindClosestNode method to find the closest nodes to the starting and ending coordinates.
     // Store the nodes you find in the RoutePlanner's start_node and end_node attributes.
-	//RouteModel::Node st=m_Model.FindClosestNode(start_x, start_y);
-	//start_node=&st;
-	start_node=new RouteModel::Node;
-	*start_node=m_Model.FindClosestNode(start_x, start_y);
-	end_node=new RouteModel::Node;
-	*end_node=m_Model.FindClosestNode(end_x, end_y);
+	start_node=&m_Model.FindClosestNode(start_x, start_y);
+	end_node=&m_Model.FindClosestNode(end_x, end_y);
 }
 
 
@@ -105,6 +101,7 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 void RoutePlanner::AStarSearch() {
     RouteModel::Node *current_node = start_node;
 	start_node->parent=nullptr;
+  	start_node->visited=true;
 	do{
 		if(current_node->x==end_node->x&&current_node->y==end_node->y){
 			auto final_path=ConstructFinalPath(current_node);
